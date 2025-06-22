@@ -6,6 +6,7 @@
     <title>IP Address Viewer</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables for theming */
         :root {
             --bg-color: #f0f0f0;
             --text-color: #333;
@@ -19,6 +20,7 @@
             --link-color: #007bff;
         }
 
+        /* Dark theme variables */
         [data-theme="dark"] {
             --bg-color: #1a1a1a;
             --text-color: #f0f0f0;
@@ -31,6 +33,7 @@
             --link-color: #64b5f6;
         }
 
+        /* Base body styling */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: var(--bg-color);
@@ -43,16 +46,18 @@
             justify-content: center;
             min-height: 100vh;
             transition: background-color 0.3s, color 0.3s;
-            opacity: 0;
+            opacity: 0; /* Initial state for fadeInPage animation */
             animation: fadeInPage 0.8s ease-out forwards;
         }
 
+        /* Keyframe for fading in the entire page */
         @keyframes fadeInPage {
             to {
                 opacity: 1;
             }
         }
 
+        /* Container styling */
         .container {
             background-color: var(--card-bg-color);
             padding: 30px;
@@ -61,46 +66,50 @@
             width: 90%;
             max-width: 500px;
             text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 0; /* Initial state for fadeInContent animation */
             animation: fadeInContent 0.6s ease-out 0.3s forwards;
             transition: background-color 0.3s;
         }
 
+        /* Keyframe for fading in the container content */
         @keyframes fadeInContent {
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0); /* Ensure no unintended transform */
             }
         }
 
+        /* Heading styling */
         h1 {
             margin-top: 0;
             margin-bottom: 25px;
             font-weight: 700;
-            opacity: 0;
+            opacity: 0; /* Initial state for fadeInText animation */
             animation: fadeInText 0.5s ease-out 0.6s forwards;
         }
 
+        /* IP section styling */
         .ip-section {
             margin-bottom: 20px;
             padding: 15px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            opacity: 0;
+            opacity: 0; /* Initial state for fadeInText animation */
             animation: fadeInText 0.5s ease-out forwards;
             transition: border-color 0.3s;
         }
+        /* Animation delays for staggered reveal of IP sections */
         .ip-section:nth-of-type(1) { animation-delay: 0.8s; }
         .ip-section:nth-of-type(2) { animation-delay: 1.0s; }
 
-
+        /* Label for IP addresses */
         .ip-label {
             font-weight: 700;
             margin-bottom: 8px;
             display: block;
         }
 
+        /* Container for IP value and copy button */
         .ip-value-container {
             display: flex;
             align-items: center;
@@ -111,6 +120,7 @@
             transition: background-color 0.3s;
         }
 
+        /* Actual IP address text styling */
         .ip-address {
             font-size: 1.1em;
             word-break: break-all;
@@ -119,6 +129,7 @@
             text-align: left;
         }
 
+        /* Copy button styling */
         .copy-btn {
             background-color: var(--button-bg-color);
             color: var(--button-text-color);
@@ -137,24 +148,26 @@
             background-color: var(--button-hover-bg-color);
         }
 
+        /* SVG icon within the copy button */
         .copy-btn svg {
             width: 16px;
             height: 16px;
             fill: currentColor;
         }
 
+        /* Notification styling */
         .notification {
             position: fixed;
             bottom: 20px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%); /* Keep horizontal centering */
             background-color: var(--text-color);
             color: var(--bg-color);
             padding: 12px 20px;
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            opacity: 0;
+            opacity: 0; /* Initial state for fadeInNotification */
             visibility: hidden;
             transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
         }
@@ -162,6 +175,7 @@
         .notification.show {
             opacity: 1;
             visibility: visible;
+            /* Use a simpler fade-in for notification, removing vertical movement */
             animation: fadeInNotification 0.3s ease-out forwards;
             transition: opacity 0.3s ease-out, visibility 0s linear 0s;
         }
@@ -176,22 +190,24 @@
             color: white;
         }
 
-
+        /* Keyframe for general text fading (used by h1, ip-sections, footer) */
         @keyframes fadeInText {
             to {
                 opacity: 1;
             }
         }
         
+        /* Keyframe for notification fading in (modified to remove vertical movement) */
         @keyframes fadeInNotification {
-            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
+        /* Footer styling */
         footer {
             margin-top: 30px;
             font-size: 0.9em;
-            opacity: 0;
+            opacity: 0; /* Initial state for fadeInText animation */
             animation: fadeInText 0.5s ease-out 1.2s forwards;
         }
         footer a {
@@ -201,7 +217,6 @@
         footer a:hover {
             text-decoration: underline;
         }
-
     </style>
 </head>
 <body>
@@ -214,10 +229,9 @@
             <div class="ip-value-container">
                 <span id="ipv4-address" class="ip-address">-</span>
                 <button class="copy-btn" data-copy-target="ipv4-address" aria-label="IPv4アドレスをコピー">
-                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false">
-                        <g>
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path>
-                        </g>
+                    <!-- Updated SVG icon for copy button -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
                     </svg>
                 </button>
             </div>
@@ -228,10 +242,9 @@
             <div class="ip-value-container">
                 <span id="ipv6-address" class="ip-address">-</span>
                 <button class="copy-btn" data-copy-target="ipv6-address" aria-label="IPv6アドレスをコピー">
-                    <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false">
-                        <g>
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path>
-                        </g>
+                    <!-- Updated SVG icon for copy button -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
                     </svg>
                 </button>
             </div>
@@ -251,7 +264,7 @@
             const notificationElement = document.getElementById('notification');
             let notificationTimeout;
 
-            // Theme detection
+            // Theme detection based on user's system preference
             const applyTheme = () => {
                 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (prefersDark) {
@@ -261,82 +274,85 @@
                 }
             };
 
-            applyTheme(); // Apply on initial load
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme); // Listen for changes
+            applyTheme(); // Apply theme on initial load
+            // Listen for changes in the system's preferred color scheme
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 
-            // Fetch IP addresses
+            // Function to fetch IP addresses from a given URL and update a specific element
             const fetchIp = async (url, element) => {
                 try {
                     const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    if (!response.ok) {
+                        // Throw an error if the HTTP response status is not OK
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
                     const data = await response.json();
+                    // Update the element's text content with the fetched IP or '-' if not found
                     element.textContent = data.ip || '-';
                 } catch (error) {
+                    // Log the error to the console and set the element text to '-'
                     console.error('Error fetching IP:', error);
                     element.textContent = '-';
                 }
             };
 
-            // Use Promise.allSettled to fetch both regardless of individual failures
+            // Fetch both IPv4 and IPv6 addresses concurrently using Promise.allSettled
+            // This allows all promises to settle (fulfill or reject) before proceeding
             Promise.allSettled([
-                fetchIp('https://api.ipify.org?format=json', ipv4Element),
-                fetchIp('https://api64.ipify.org?format=json', ipv6Element) // api64 tries IPv6, falls back to IPv4 if not available or if IPv6 is not supported by user's network
+                fetchIp('https://api.ipify.org?format=json', ipv4Element), // Fetches IPv4
+                fetchIp('https://api64.ipify.org?format=json', ipv6Element) // Tries IPv6, may fall back to IPv4
             ]).then(results => {
-                // If api64 returned an IPv4 address and IPv4 is already set, it might be a duplicate.
-                // A more robust solution for purely IPv6 would be a dedicated IPv6-only endpoint,
-                // but api64.ipify.org is a common choice.
-                // If ipv6Element shows an IPv4 address (contains '.'), then likely no IPv6 available.
+                // Check if the IPv6 element currently displays an IPv4 address and if it's the same as the IPv4 address
+                // This indicates that api64.ipify.org likely returned IPv4 because IPv6 was not available.
                 if (ipv6Element.textContent.includes('.') && ipv6Element.textContent === ipv4Element.textContent) {
-                     // Try a dedicated IPv6 endpoint if the previous one gave an IPv4
-                     fetchIp('https://api6.ipify.org?format=json', ipv6Element).catch(() => {
-                        ipv6Element.textContent = '-'; // Fallback if pure IPv6 also fails
-                     });
-                } else if (ipv6Element.textContent.includes('.')) {
-                    // If it's an IPv4 address but different from the main IPv4, it's likely a misconfiguration or specific setup.
-                    // For simplicity, if it's not a v6 format, mark as unavailable.
-                    // A better check would be a regex for IPv6 format.
-                    const ipv6Regex = /^[0-9a-fA-F:]+$/;
+                    // If so, attempt to fetch from a dedicated IPv6-only endpoint (api6.ipify.org)
+                    fetchIp('https://api6.ipify.org?format=json', ipv6Element).catch(() => {
+                        // If the pure IPv6 fetch also fails, set IPv6 to '-'
+                        ipv6Element.textContent = '-'; 
+                    });
+                } else {
+                    // If the IPv6 element contains a dot but is not the same as IPv4, 
+                    // or if it's not a standard IPv6 format, consider it unavailable.
+                    const ipv6Regex = /^[0-9a-fA-F:]+$/; // Basic regex for IPv6 format (hex digits and colons)
                     if (!ipv6Regex.test(ipv6Element.textContent) && ipv6Element.textContent !== '-') {
-                         ipv6Element.textContent = '-';
+                        ipv6Element.textContent = '-';
                     }
                 }
             });
 
-
-            // Show notification
+            // Function to display a notification message
             const showNotification = (message, type = 'success') => {
-                clearTimeout(notificationTimeout);
-                notificationElement.textContent = message;
-                notificationElement.className = 'notification show'; // Base classes
-                if (type === 'success') {
-                    notificationElement.classList.add('success');
-                } else {
-                    notificationElement.classList.add('error');
-                }
+                clearTimeout(notificationTimeout); // Clear any existing timeout
+                notificationElement.textContent = message; // Set message content
+                // Set base classes and add success/error class
+                notificationElement.className = `notification show ${type}`; 
 
+                // Hide the notification after 3 seconds
                 notificationTimeout = setTimeout(() => {
                     notificationElement.classList.remove('show');
                 }, 3000);
             };
 
-            // Copy to clipboard
+            // Add event listeners to all copy buttons
             document.querySelectorAll('.copy-btn').forEach(button => {
                 button.addEventListener('click', () => {
-                    const targetId = button.dataset.copyTarget;
-                    const textToCopy = document.getElementById(targetId).textContent;
+                    const targetId = button.dataset.copyTarget; // Get the ID of the element to copy from
+                    const textToCopy = document.getElementById(targetId).textContent; // Get the text content
 
+                    // If the text is '-', show an error notification
                     if (textToCopy === '-') {
                         showNotification('コピーするアドレスがありません。', 'error');
-                        return;
+                        return; // Stop execution
                     }
 
+                    // Attempt to copy the text to the clipboard
                     navigator.clipboard.writeText(textToCopy)
                         .then(() => {
-                            showNotification('正常にコピーされました', 'success');
+                            showNotification('正常にコピーされました', 'success'); // Show success notification
                         })
                         .catch(err => {
-                            console.error('Copy failed: ', err);
-                            showNotification('正常にコピーできませんでした', 'error');
+                            console.error('Copy failed: ', err); // Log error to console
+                            showNotification('正常にコピーできませんでした', 'error'); // Show error notification
                         });
                 });
             });
